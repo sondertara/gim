@@ -3,6 +3,8 @@ package main
 import (
 	"gim/config"
 	"gim/internal/logic/api"
+	"gim/internal/logic/app"
+	"gim/internal/logic/proxy"
 	"gim/pkg/db"
 	"gim/pkg/interceptor"
 	"gim/pkg/logger"
@@ -17,6 +19,11 @@ import (
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 )
+
+func initProxy() {
+	proxy.MessageProxy = app.MessageApp
+	proxy.DeviceProxy = app.DeviceApp
+}
 
 func main() {
 	logger.Init()

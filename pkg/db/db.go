@@ -3,6 +3,7 @@ package db
 import (
 	"fmt"
 	"gim/config"
+	"gim/pkg/gerrors"
 	"gim/pkg/logger"
 
 	"github.com/go-redis/redis"
@@ -54,4 +55,12 @@ func InitByTest() {
 
 	InitMysql(config.Logic.MySQL)
 	InitRedis(config.Logic.RedisIP, config.Logic.RedisPassword)
+}
+
+func Publish(topic string, bytes []byte) error {
+	_, err := RedisCli.Publish(topic, bytes).Result()
+	if err != nil {
+		return gerrors.WrapError(err)
+	}
+	return nil
 }
